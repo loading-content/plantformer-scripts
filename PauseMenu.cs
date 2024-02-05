@@ -18,7 +18,7 @@ public class PauseMenu : MonoBehaviour
     public Slider sfxVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider speedSlider;
-
+    public Toggle fullScreenToggle;
     private void Start()
     {
         resolutions = Screen.resolutions;
@@ -40,11 +40,21 @@ public class PauseMenu : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        fullScreenToggle.isOn = Screen.fullScreen;
     }
     public void setResolution(int resolutionIndex)
     {
         Resolution resolution =resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+    public void ToggleFullScreen()
+    {
+        // Toggle full screen mode
+        Screen.fullScreen = !Screen.fullScreen;
+
+        // Update toggle state based on the new full screen setting
+        fullScreenToggle.isOn = Screen.fullScreen;
     }
     void Update()
     {
@@ -70,11 +80,9 @@ public class PauseMenu : MonoBehaviour
     private void Pause()
     {
         pauseMenuUI.SetActive(true);
-
         speedSlider.value = Time.timeScale * 4;
         Time.timeScale = 0f;
         GameIsPaused = true;
-        Debug.Log(pauseMenuUI.name);
     }
     public void Quit()
     {

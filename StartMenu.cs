@@ -17,7 +17,7 @@ public class StartMenu : MonoBehaviour
     public Slider sfxVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider speedSlider;
-
+    public Toggle fullScreenToggle;
     private void Start()
     {
         resolutions = Screen.resolutions;
@@ -39,11 +39,21 @@ public class StartMenu : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        fullScreenToggle.isOn = Screen.fullScreen;
     }
     public void setResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+    public void ToggleFullScreen()
+    {
+        // Toggle full screen mode
+        Screen.fullScreen = !Screen.fullScreen;
+
+        // Update toggle state based on the new full screen setting
+        fullScreenToggle.isOn = Screen.fullScreen;
     }
     public void StartGame()
     {
@@ -51,7 +61,7 @@ public class StartMenu : MonoBehaviour
     }
     public void Levels()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = speedSlider.value / 4;
         SceneManager.LoadScene("Level Select");
     }
     public void Quit()
